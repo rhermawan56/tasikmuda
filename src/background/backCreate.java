@@ -15,10 +15,10 @@ import javax.swing.JPanel;
  *
  * @author RizkyHermawan
  */
-public class backLogin extends JPanel{
+public class backCreate extends JPanel{
     Image gambar;
-    public backLogin(){
-        gambar = new ImageIcon(getClass().getResource("/jpg/login.jpeg")).getImage();
+    public backCreate(){
+        gambar = new ImageIcon(getClass().getResource("/jpg/create.jpeg")).getImage();
     }
     @Override
     public void paintComponent(Graphics g){
