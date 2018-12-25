@@ -5,6 +5,8 @@
  */
 package tasikmuda;
 
+import exform.Login;
+
 /**
  *
  * @author RizkyHermawan
@@ -16,6 +18,7 @@ public class Tasikmuda {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        new Login().setVisible(true);
     }
     
 }

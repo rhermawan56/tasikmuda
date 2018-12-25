@@ -5,11 +5,23 @@
  */
 package exform;
 
+import Connection.DBConnection;
+import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Locale;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author RizkyHermawan
  */
 public class Create extends javax.swing.JFrame {
+
+    private PreparedStatement ps;
+    private Connection koneksi;
+    private ResultSet rs;
 
     /**
      * Creates new form Create
@@ -17,6 +29,8 @@ public class Create extends javax.swing.JFrame {
     public Create() {
         initComponents();
         setLocationRelativeTo(this);
+        koneksi = DBConnection.DB();
+        backCreate1.requestFocus();
     }
 
     /**
@@ -29,68 +43,93 @@ public class Create extends javax.swing.JFrame {
     private void initComponents() {
 
         backCreate1 = new background.backCreate();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        texidkaryawan = new javax.swing.JTextField();
+        btncreate = new javax.swing.JButton();
+        btncancel = new javax.swing.JButton();
+        texpassword = new javax.swing.JPasswordField();
+        texconfirm = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(700, 400));
         setResizable(false);
         setSize(new java.awt.Dimension(700, 400));
 
-        jTextField1.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(102, 102, 102));
-        jTextField1.setText("ID Karyawan");
+        texidkaryawan.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        texidkaryawan.setForeground(new java.awt.Color(102, 102, 102));
+        texidkaryawan.setText("ID Karyawan");
+        texidkaryawan.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                texidkaryawanFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                texidkaryawanFocusLost(evt);
+            }
+        });
 
-        jTextField2.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(102, 102, 102));
-        jTextField2.setText("Password");
+        btncreate.setBackground(new java.awt.Color(0, 102, 204));
+        btncreate.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        btncreate.setText("Create");
+        btncreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btncreateActionPerformed(evt);
+            }
+        });
 
-        jTextField3.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        jTextField3.setForeground(new java.awt.Color(102, 102, 102));
-        jTextField3.setText("Confirm Password");
+        btncancel.setBackground(new java.awt.Color(0, 102, 204));
+        btncancel.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        btncancel.setText("Cancel");
 
-        jButton1.setBackground(new java.awt.Color(0, 102, 204));
-        jButton1.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        jButton1.setText("Submit");
+        texpassword.setText("Password");
+        texpassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                texpasswordFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                texpasswordFocusLost(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(0, 102, 204));
-        jButton2.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        jButton2.setText("Cancel");
+        texconfirm.setText("Password");
+        texconfirm.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                texconfirmFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                texconfirmFocusLost(evt);
+            }
+        });
 
         javax.swing.GroupLayout backCreate1Layout = new javax.swing.GroupLayout(backCreate1);
         backCreate1.setLayout(backCreate1Layout);
         backCreate1Layout.setHorizontalGroup(
             backCreate1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backCreate1Layout.createSequentialGroup()
+            .addGroup(backCreate1Layout.createSequentialGroup()
                 .addContainerGap(165, Short.MAX_VALUE)
                 .addGroup(backCreate1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(backCreate1Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backCreate1Layout.createSequentialGroup()
+                        .addComponent(btncreate, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(118, 118, 118)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16)))
-                .addGap(135, 135, 135))
+                        .addComponent(btncancel, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(151, 151, 151))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backCreate1Layout.createSequentialGroup()
+                        .addGroup(backCreate1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(texidkaryawan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(texpassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(texconfirm, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(135, 135, 135))))
         );
         backCreate1Layout.setVerticalGroup(
             backCreate1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backCreate1Layout.createSequentialGroup()
                 .addGap(117, 117, 117)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(texidkaryawan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(texpassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(texconfirm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(backCreate1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btncreate)
+                    .addComponent(btncancel))
                 .addContainerGap(146, Short.MAX_VALUE))
         );
 
@@ -107,6 +146,88 @@ public class Create extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cekconfirmpassword() {
+        String id = texidkaryawan.getText();
+        String pass = texpassword.getText();
+        String confirm = texconfirm.getText();
+        String sql = "select * from karyawan where id_karyawan = '" + id + "'";
+        if (pass.equals("Password")) {
+            texpassword.setForeground(Color.red);
+        } else if (pass.equals(confirm)) {
+            try {
+                ps = koneksi.prepareStatement(sql);
+                rs = ps.executeQuery(sql);
+                if (rs.next()) {
+                    JOptionPane.showMessageDialog(null, "Same");
+                } else if (!(rs.next())) {
+                    JOptionPane.showMessageDialog(null, "ID Karyawan tidak ditemukan");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Connection Lose");
+            }
+        } else if (!(pass.equals(confirm))) {
+            texconfirm.setForeground(Color.red);
+        }
+    }
+
+    private void btncreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncreateActionPerformed
+        // TODO add your handling code here
+        cekconfirmpassword();
+    }//GEN-LAST:event_btncreateActionPerformed
+
+    private void texidkaryawanFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_texidkaryawanFocusGained
+        // TODO add your handling code here:
+        if ("ID Karyawan".equals(texidkaryawan.getText())) {
+            texidkaryawan.setText("");
+        }
+        texidkaryawan.setForeground(Color.black);
+    }//GEN-LAST:event_texidkaryawanFocusGained
+
+    private void texidkaryawanFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_texidkaryawanFocusLost
+        // TODO add your handling code here:
+        if ("".equals(texidkaryawan.getText())) {
+            texidkaryawan.setText("ID Karyawan");
+        }
+        texidkaryawan.setForeground(new Color(102, 102, 102));
+    }//GEN-LAST:event_texidkaryawanFocusLost
+
+    private void texconfirmFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_texconfirmFocusGained
+        // TODO add your handling code here:
+        if (texconfirm.getForeground().equals(Color.red)) {
+            texconfirm.setText("");
+            texconfirm.setForeground(Color.black);
+        } else if ("Password".equals(texconfirm.getText())) {
+            texconfirm.setText("");
+            texconfirm.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_texconfirmFocusGained
+
+    private void texconfirmFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_texconfirmFocusLost
+        // TODO add your handling code here:
+        if ("".equals(texconfirm.getText())) {
+            texconfirm.setText("Password");
+        }
+    }//GEN-LAST:event_texconfirmFocusLost
+
+    private void texpasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_texpasswordFocusGained
+        // TODO add your handling code here:
+        if(texpassword.getForeground().equals(Color.red)){
+            texpassword.setForeground(Color.black);
+            texpassword.setText("");
+        }else if ("Password".equals(texpassword.getText())) {
+            texpassword.setText("");
+            texpassword.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_texpasswordFocusGained
+
+    private void texpasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_texpasswordFocusLost
+        // TODO add your handling code here:
+        if ("".equals(texpassword.getText())) {
+            texpassword.setText("Password");
+            texpassword.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_texpasswordFocusLost
 
     /**
      * @param args the command line arguments
@@ -145,10 +266,10 @@ public class Create extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private background.backCreate backCreate1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JButton btncancel;
+    private javax.swing.JButton btncreate;
+    private javax.swing.JPasswordField texconfirm;
+    private javax.swing.JTextField texidkaryawan;
+    private javax.swing.JPasswordField texpassword;
     // End of variables declaration//GEN-END:variables
 }

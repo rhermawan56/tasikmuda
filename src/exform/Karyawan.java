@@ -5,17 +5,38 @@
  */
 package exform;
 
+import Connection.DBConnection;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 /**
  *
  * @author RizkyHermawan
  */
 public class Karyawan extends javax.swing.JFrame {
+    
+    private PreparedStatement ps;
+    private ResultSet rs;
+    private Connection koneksi;
+    int searching;
 
     /**
      * Creates new form CreateAccount
      */
     public Karyawan() {
         initComponents();
+        koneksi = DBConnection.DB();
+    }
+    
+    private void search(){
+        
+        String a = texsearch.getText();
+        if (a.isEmpty()){
+            searching = 0;
+        } else if (!(a.isEmpty())){
+            try{}catch(Exception e){}
+        }
     }
 
     /**
@@ -29,14 +50,12 @@ public class Karyawan extends javax.swing.JFrame {
 
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         backKaryawan1 = new background.backKaryawan();
-        jTextField4 = new javax.swing.JTextField();
+        texsearch = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
         jTextField6 = new javax.swing.JTextField();
         jTextField7 = new javax.swing.JTextField();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jTextField3 = new javax.swing.JTextField();
         jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jTextField9 = new javax.swing.JTextField();
@@ -45,14 +64,14 @@ public class Karyawan extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jTextField10 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1366, 768));
         setResizable(false);
 
-        jTextField4.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        jTextField4.setForeground(new java.awt.Color(102, 102, 102));
-        jTextField4.setText("Search");
+        texsearch.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        texsearch.setForeground(new java.awt.Color(102, 102, 102));
+        texsearch.setText("Search");
 
         jTextField5.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jTextField5.setForeground(new java.awt.Color(102, 102, 102));
@@ -72,13 +91,6 @@ public class Karyawan extends javax.swing.JFrame {
         jTextField1.setText("Tgl Lahir");
         jTextField1.setEnabled(false);
 
-        jTextField2.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(102, 102, 102));
-        jTextField2.setText("Jabatan");
-        jTextField2.setEnabled(false);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jTextField3.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jTextField3.setForeground(new java.awt.Color(102, 102, 102));
         jTextField3.setText("No Telepon");
@@ -95,18 +107,26 @@ public class Karyawan extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(0, 102, 204));
         jButton1.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jButton1.setText("Tambah");
+        jButton1.setFocusable(false);
 
         jButton2.setBackground(new java.awt.Color(0, 102, 204));
         jButton2.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jButton2.setText("Edit");
+        jButton2.setFocusable(false);
 
         jButton3.setBackground(new java.awt.Color(0, 102, 204));
         jButton3.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jButton3.setText("Simpan");
+        jButton3.setFocusable(false);
 
         jButton4.setBackground(new java.awt.Color(0, 102, 204));
         jButton4.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jButton4.setText("Print");
+        jButton4.setFocusable(false);
+
+        jTextField10.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        jTextField10.setForeground(new java.awt.Color(102, 102, 102));
+        jTextField10.setText("Jabatan");
 
         javax.swing.GroupLayout backKaryawan1Layout = new javax.swing.GroupLayout(backKaryawan1);
         backKaryawan1.setLayout(backKaryawan1Layout);
@@ -131,17 +151,14 @@ public class Karyawan extends javax.swing.JFrame {
                         .addGroup(backKaryawan1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextField7, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
                             .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(texsearch, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField5)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backKaryawan1Layout.createSequentialGroup()
                                 .addComponent(jTextField1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(backKaryawan1Layout.createSequentialGroup()
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jTextField3)))
+                            .addComponent(jTextField3)
+                            .addComponent(jTextField10, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addComponent(jTextField8, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(147, 147, 147))
         );
@@ -149,7 +166,7 @@ public class Karyawan extends javax.swing.JFrame {
             backKaryawan1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backKaryawan1Layout.createSequentialGroup()
                 .addGap(107, 107, 107)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(texsearch, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -161,10 +178,8 @@ public class Karyawan extends javax.swing.JFrame {
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(backKaryawan1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
                 .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(backKaryawan1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -239,17 +254,16 @@ public class Karyawan extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField texsearch;
     // End of variables declaration//GEN-END:variables
 }
